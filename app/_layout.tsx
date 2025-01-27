@@ -2,6 +2,10 @@ import { Slot, useRouter } from "expo-router";
 import "../global.css";
 import { useEffect } from "react";
 import { supabase } from "../lib/supabase";
+import { setupGoogle } from "../lib/google";
+import { GoogleSignin } from "@react-native-google-signin/google-signin";
+
+setupGoogle();
 
 export default function Layout() {
   const router = useRouter();
@@ -21,6 +25,8 @@ export default function Layout() {
           router.replace("/signin");
       }
     });
+
+    GoogleSignin.hasPreviousSignIn() && GoogleSignin.signInSilently();
   }, []);
 
   return <Slot />;

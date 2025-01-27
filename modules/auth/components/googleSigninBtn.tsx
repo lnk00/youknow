@@ -9,10 +9,6 @@ import { supabase } from "../../../lib/supabase";
 
 export default function GoogleSigninBtn() {
   const router = useRouter();
-  GoogleSignin.configure({
-    scopes: ["https://www.googleapis.com/auth/youtube"],
-    iosClientId: process.env.EXPO_PUBLIC_GOOGLE_IOS_CLIENT_ID,
-  });
 
   return (
     <GoogleSigninButton
@@ -27,6 +23,7 @@ export default function GoogleSigninBtn() {
               provider: "google",
               token: userInfo.data.idToken,
             });
+
             if (!error) {
               router.replace("/");
             }
