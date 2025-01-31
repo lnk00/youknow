@@ -1,9 +1,16 @@
-import { Dimensions, ScrollView, Text, View } from "react-native";
+import {
+  ActivityIndicator,
+  Dimensions,
+  ScrollView,
+  Text,
+  View,
+} from "react-native";
 import { supabase } from "../../lib/supabase";
 import { GoogleSignin } from "@react-native-google-signin/google-signin";
 import { useEffect, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Image } from "expo-image";
+import { FlashList } from "@shopify/flash-list";
 
 type Subscription = {
   snippet: {
@@ -21,6 +28,8 @@ type Subscription = {
 
 export default function Index() {
   const [subz, setSubz] = useState<Array<Subscription>>([]);
+  const [nextPageToken, setNextPageToken] = useState<string>("");
+  const [subzNb, setSubzNb] = useState<number>(0);
 
   const handleSignout = async () => {
     await GoogleSignin.signOut();
@@ -41,26 +50,50 @@ export default function Index() {
         );
 
         const body = await res.json();
-
         setSubz(body.items);
-
-        console.log(body);
-      } catch (error) {
-        console.log(error);
-      }
+        setSubzNb(body.pageInfo.totalResults);
+        setNextPageToken(body.nextPageToken);
+      } catch (error) {}
     };
 
     fetchData();
   }, []);
 
+  const refetch = async () => {
+    if (nextPageToken !== "" && subz.length < subzNb) {
+      try {
+        const tokens = await GoogleSignin.getTokens();
+        const res = await fetch(
+          "https://www.googleapis.com/youtube/v3/subscriptions?mine=true&part=contentDetails,snippet&maxResults=50&pageToken=" +
+            nextPageToken,
+          {
+            headers: {
+              Authorization: "Bearer " + tokens.accessToken,
+            },
+          },
+        );
+
+        const body = await res.json();
+        setSubz((i) => i.concat(body.items));
+        setNextPageToken(body.nextPageToken);
+      } catch (error) {}
+    }
+  };
+
   return (
-    <SafeAreaView className="flex-1 gap-8 bg-white px-6">
+    <SafeAreaView edges={["top"]} className="flex-1 gap-8 bg-white px-6">
       <Text className="font-black text-4xl">Subz</Text>
-      <ScrollView>
-        {subz.map((sub, id) => (
-          <View key={id} className="flex flex-row mb-4 items-center">
+      <FlashList
+        data={subz}
+        ListEmptyComponent={() => (
+          <View className="flex-1 h-96 items-center justify-center">
+            <ActivityIndicator />
+          </View>
+        )}
+        renderItem={({ item, index }) => (
+          <View key={index} className="flex flex-row mb-4 items-center">
             <Image
-              source={sub.snippet.thumbnails.default.url}
+              source={item.snippet.thumbnails.default.url}
               contentFit="contain"
               style={{ height: 56, width: 56, borderRadius: 56, zIndex: 10 }}
             />
@@ -69,15 +102,17 @@ export default function Index() {
               style={{ width: Dimensions.get("window").width - 72 }}
             >
               <Text className="ml-8 font-semibold text-lg">
-                {sub.snippet.title}
+                {item.snippet.title}
               </Text>
               <Text className="ml-8 opacity-50">
-                {sub.contentDetails.totalItemCount} videos
+                {item.contentDetails.totalItemCount} videos
               </Text>
             </View>
           </View>
-        ))}
-      </ScrollView>
+        )}
+        estimatedItemSize={100}
+        onEndReached={refetch}
+      />
     </SafeAreaView>
   );
 }
