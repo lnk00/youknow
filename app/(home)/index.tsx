@@ -1,7 +1,8 @@
 import {
   ActivityIndicator,
   Dimensions,
-  ScrollView,
+  Pressable,
+  RefreshControlBase,
   Text,
   View,
 } from "react-native";
@@ -27,7 +28,7 @@ type Subscription = {
 };
 
 export default function Index() {
-  const [subz, setSubz] = useState<Array<Subscription>>([]);
+  const [subz, setSubz] = useState<Subscription[]>([]);
   const [nextPageToken, setNextPageToken] = useState<string>("");
   const [subzNb, setSubzNb] = useState<number>(0);
 
@@ -46,14 +47,16 @@ export default function Index() {
             headers: {
               Authorization: "Bearer " + tokens.accessToken,
             },
-          },
+          }
         );
 
         const body = await res.json();
         setSubz(body.items);
         setSubzNb(body.pageInfo.totalResults);
         setNextPageToken(body.nextPageToken);
-      } catch (error) {}
+      } catch (error) {
+        console.log(error);
+      }
     };
 
     fetchData();
@@ -70,7 +73,7 @@ export default function Index() {
             headers: {
               Authorization: "Bearer " + tokens.accessToken,
             },
-          },
+          }
         );
 
         const body = await res.json();
@@ -82,7 +85,14 @@ export default function Index() {
 
   return (
     <SafeAreaView edges={["top"]} className="flex-1 gap-8 bg-white px-6">
-      <Text className="font-black text-4xl">Subz</Text>
+      <View className="flex-row items-center justify-between">
+        <Text className="font-black text-4xl">Subz</Text>
+        <Pressable onPress={handleSignout}>
+          <View className="w-12 h-12 rounded-full bg-gray-200 items-center justify-center">
+            <Text className="font-bold">DD</Text>
+          </View>
+        </Pressable>
+      </View>
       <FlashList
         data={subz}
         ListEmptyComponent={() => (
