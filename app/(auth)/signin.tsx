@@ -1,6 +1,6 @@
-import React from "react";
-import { View } from "react-native";
-import GoogleSigninBtn from "../../modules/auth/components/googleSigninBtn";
+import React from 'react';
+import { View } from 'react-native';
+import GoogleSigninBtn from '../../modules/auth/components/googleSigninBtn';
 
 export default function Signin() {
   return (

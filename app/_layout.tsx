@@ -1,9 +1,11 @@
-import { Slot, useRouter } from "expo-router";
-import "../global.css";
-import { useEffect } from "react";
-import { supabase } from "../lib/supabase";
-import { setupGoogle } from "../lib/google";
-import { GoogleSignin } from "@react-native-google-signin/google-signin";
+import { Slot, useRouter } from 'expo-router';
+import '@/global.css';
+import { GluestackUIProvider } from '@/components/ui/gluestack-ui-provider';
+import '../global.css';
+import { useEffect } from 'react';
+import { supabase } from '../lib/supabase';
+import { setupGoogle } from '../lib/google';
+import { GoogleSignin } from '@react-native-google-signin/google-signin';
 
 setupGoogle();
 
@@ -13,21 +15,25 @@ export default function Layout() {
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
       if (!session) {
-        router.replace("/signin");
+        router.replace('/signin');
       }
     });
 
     supabase.auth.onAuthStateChange((event) => {
       switch (event) {
-        case "SIGNED_IN":
-          router.replace("/");
-        case "SIGNED_OUT":
-          router.replace("/signin");
+        case 'SIGNED_IN':
+          router.replace('/');
+        case 'SIGNED_OUT':
+          router.replace('/signin');
       }
     });
 
     GoogleSignin.hasPreviousSignIn() && GoogleSignin.signInSilently();
   }, []);
 
-  return <Slot />;
+  return (
+    <GluestackUIProvider mode="light">
+      <Slot />
+    </GluestackUIProvider>
+  );
 }
