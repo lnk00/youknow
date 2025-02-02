@@ -1,8 +1,8 @@
 {
   "expo": {
-    "name": "subz",
-    "slug": "subz",
-    "scheme": "subz",
+    "name": "youknow",
+    "slug": "youknow",
+    "scheme": "youknow",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -15,14 +15,14 @@
     },
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.anonymous.subz"
+      "bundleIdentifier": "com.anonymous.youknow"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.anonymous.subz"
+      "package": "com.anonymous.youknow"
     },
     "web": {
       "favicon": "./assets/favicon.png",
