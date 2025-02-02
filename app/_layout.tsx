@@ -6,6 +6,7 @@ import { useEffect } from 'react';
 import { supabase } from '../lib/supabase';
 import { setupGoogle } from '../lib/google';
 import { GoogleSignin } from '@react-native-google-signin/google-signin';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 setupGoogle();
 
@@ -32,8 +33,10 @@ export default function Layout() {
   }, []);
 
   return (
-    <GluestackUIProvider mode="light">
-      <Slot />
-    </GluestackUIProvider>
+    <GestureHandlerRootView>
+      <GluestackUIProvider mode="light">
+        <Slot />
+      </GluestackUIProvider>
+    </GestureHandlerRootView>
   );
 }
