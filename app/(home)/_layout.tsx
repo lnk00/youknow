@@ -1,15 +1,14 @@
-import { Stack } from 'expo-router';
+import { Drawer } from 'expo-router/drawer';
+import { Header } from '../../components/header';
 
 export default function HomeLayout() {
   return (
-    <Stack screenOptions={{ headerShown: false }}>
-      <Stack.Screen name="index" />
-      <Stack.Screen
-        name="profile"
-        options={{
-          presentation: 'modal',
-        }}
-      />
-    </Stack>
+    <Drawer
+      screenOptions={{
+        header: ({ navigation }) => (
+          <Header drawerToggleCb={navigation.toggleDrawer} />
+        ),
+      }}
+    ></Drawer>
   );
 }
