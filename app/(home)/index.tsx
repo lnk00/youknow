@@ -1,6 +1,6 @@
 import { useRouter } from 'expo-router/build/hooks';
 import { useCallback, useRef } from 'react';
-import { Pressable, Text, View } from 'react-native';
+import { KeyboardAvoidingView, Platform, Pressable, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import BottomSheet, {
   BottomSheetTextInput,
@@ -12,10 +12,12 @@ import {
   ButtonIcon,
   ButtonText,
 } from '@/components/ui/button';
+import { Text } from '@/components/ui/text';
 import {
   ArrowUpIcon,
   CpuIcon,
   HandshakeIcon,
+  MenuIcon,
   SwatchBookIcon,
 } from 'lucide-react-native';
 
@@ -34,13 +36,20 @@ export default function Index() {
   return (
     <SafeAreaView edges={['top']} className="bg-gray-5 flex-1 gap-8 px-6">
       <View className="flex-row items-center justify-between">
-        <Text className="text-4xl font-black">Youknow</Text>
+        <Button className="rounded-full">
+          <ButtonIcon as={MenuIcon} />
+        </Button>
         <Pressable onPress={handleProfile}>
           <View className="h-12 w-12 items-center justify-center rounded-full bg-gray-200">
             <Text className="font-bold">DD</Text>
           </View>
         </Pressable>
       </View>
+      <KeyboardAvoidingView>
+        <Text bold size="4xl" className="text-center text-gray-300">
+          It's Time to learn something !
+        </Text>
+      </KeyboardAvoidingView>
       <BottomSheet
         ref={bottomSheetRef}
         onChange={handleSheetChanges}
@@ -51,7 +60,7 @@ export default function Index() {
           <View className="flex flex-row">
             <BottomSheetTextInput
               placeholder="I want to learn how to code in rust..."
-              className="h-12 self-stretch text-lg"
+              className="h-12 w-[80%] text-lg"
             />
             <Button className="ml-auto self-end rounded-full">
               <ButtonIcon as={ArrowUpIcon} />
