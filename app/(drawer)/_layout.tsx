@@ -1,12 +1,13 @@
 import { Drawer } from 'expo-router/drawer';
 import { Header } from '../../components/header';
 import { Text } from '../../components/ui/text';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { DrawerContentScrollView } from '@react-navigation/drawer';
+import { View } from 'react-native';
 
 export default function DrawerLayout() {
   return (
     <Drawer
-      drawerContent={DrawerContent}
+      drawerContent={LearnList}
       screenOptions={{
         header: ({ navigation }) => (
           <Header drawerToggleCb={navigation.toggleDrawer} />
@@ -16,10 +17,12 @@ export default function DrawerLayout() {
   );
 }
 
-function DrawerContent() {
+function LearnList() {
   return (
-    <SafeAreaView className="px-8 py-16">
-      <Text>custom content</Text>
-    </SafeAreaView>
+    <DrawerContentScrollView scrollEnabled={false}>
+      <View className="px-4">
+        <Text className="text-2xl font-bold">Subjects</Text>
+      </View>
+    </DrawerContentScrollView>
   );
 }
