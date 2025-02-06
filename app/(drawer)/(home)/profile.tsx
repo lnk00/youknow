@@ -11,7 +11,7 @@ export default function Profile() {
   };
 
   return (
-    <SafeAreaView edges={['top']} className="flex-1 gap-8 bg-white p-6">
+    <SafeAreaView className="flex-1 gap-8 bg-white p-6">
       <View className="flex-row items-center justify-between">
         <Text className="text-4xl font-black">Profile</Text>
       </View>
