@@ -16,7 +16,7 @@ export default function Profile() {
         <Text className="text-4xl font-black">Profile</Text>
       </View>
       <Button
-        size="md"
+        size="xl"
         variant="solid"
         action="primary"
         onPress={handleSignout}

@@ -10,8 +10,11 @@ import {
   ZapIcon,
 } from 'lucide-react-native';
 import { View } from 'react-native';
+import { useRouter } from 'expo-router';
 
 export function PromptSheet() {
+  const router = useRouter();
+
   return (
     <BottomSheet
       keyboardBlurBehavior={'restore'}
@@ -24,7 +27,10 @@ export function PromptSheet() {
             placeholder="I want to learn how to code in rust..."
             className="h-12 w-[80%] text-lg"
           />
-          <Button className="ml-auto self-end rounded-full">
+          <Button
+            className="ml-auto self-end rounded-full"
+            onPress={() => router.push('/subject')}
+          >
             <ButtonIcon as={ArrowUpIcon} />
           </Button>
         </View>
