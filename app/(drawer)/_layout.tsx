@@ -1,7 +1,7 @@
 import { Drawer } from 'expo-router/drawer';
 import { Header } from '../../components/header';
 
-export default function HomeLayout() {
+export default function DrawerLayout() {
   return (
     <Drawer
       screenOptions={{
