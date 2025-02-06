@@ -6,7 +6,12 @@ export default function Index() {
   return (
     <>
       <View className="flex-1 pt-24">
-        <Text bold size="4xl" className="text-center text-gray-300">
+        <Text
+          bold
+          size="5xl"
+          className="text-center text-gray-300"
+          style={{ fontFamily: 'Caveat_600SemiBold' }}
+        >
           It's Time to learn something !
         </Text>
       </View>
